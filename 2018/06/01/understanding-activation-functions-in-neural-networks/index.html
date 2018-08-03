@@ -119,7 +119,7 @@
 
 
 
-  <title>understanding-activation-functions-in-neural-networks | ky</title>
+  <title>更好的理解深度学习中神经网络中的激活函数 | ky</title>
   
 
 
@@ -285,7 +285,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">understanding-activation-functions-in-neural-networks</h1>
+          <h1 class="post-title" itemprop="name headline">更好的理解深度学习中神经网络中的激活函数</h1>
         
 
         <div class="post-meta">
@@ -338,7 +338,18 @@
       
 
       
-        
+        <h3 id="本文要达到的目的"><a href="#本文要达到的目的" class="headerlink" title="本文要达到的目的"></a>本文要达到的目的</h3><p>很多人才开始接触深度学习的人或者已经入门不就的人以及包括有一定开发经验的人可能对<code>激活函数(activation function)</code>的理解不是很到位，或者说理解只是基于别人或者文档里这么说，更或者这些人只是理解激活函数就是一个数学上的公式(表面上是这样). 这篇文章就是带着一些简单的数学公式以及结合人脑中神经单元来说说, 让读到本篇文章的人对激活函数有更具体的认识.</p>
+<a id="more"></a>
+<h3 id="什么是人造神经网络-artificial-neural-network"><a href="#什么是人造神经网络-artificial-neural-network" class="headerlink" title="什么是人造神经网络(artificial neural network)"></a>什么是人造神经网络(artificial neural network)</h3><p>在更好的理解激活函数之前，必须得对神经网络有一定的认识.人造神经网络其实是模拟大脑中具有生物意义的神经网络，构成神经网络的是由一个个神经元, 而这些神经元的左右就是在接受到一定的刺激(输入)时<code>可能会</code>产生相应的输出. 为什么是可能会? 并不是所有的刺激(输入)都会激发相应的向后传输(输出), 放大的例子就是，用榔头敲膝盖，敲的力量小了，没啥反应，当敲击的力量达到一定的程度,你的膝盖就会不由自主的产生反应(这个大家应该都知道),同样神经元也是如此. 那么我们(为此作出努力的先辈)如何模拟这样的神经冲动(激发). 依据神经元的特点：多个输入，有输出. 所以先辈们很早就能模拟神经元(典型).<br>第一幅图为生物学上定义的神经元, 第二幅图为科研人员定义的典型人造神经元.<br><img src="/images/timg.jpeg" alt="生物学上的单个神经元"><br><img src="/images/an.png" alt="人造典型单个神经元"><br>到此，我想你对人造神经元有一定的认识了，如果你还想更多的了解生物神经元以及人造神经元相关的更深的认识, 你可以百度或者谷歌来加深认识.</p>
+<h3 id="激活函数和神经元有什么关系"><a href="#激活函数和神经元有什么关系" class="headerlink" title="激活函数和神经元有什么关系"></a>激活函数和神经元有什么关系</h3><p>在生物意义上的神经元在接受了一定的刺激(输入), 在其内部会促进突触小泡内递质的释放(这里不必深究), 小泡可能释放很多也可能很少。神经元的向下传递取决于这小泡的释放量是否足够. 好了，到这里记住两点</p>
+<ul>
+<li>有一定的输入</li>
+<li>是否向下一个神经元传递取决于小泡释放量的多少(是否达到触发传递的临界点)</li>
+</ul>
+<p>在上图，我们看到了典型的人造神经单元的构成, 此时我们如何基于上述的两点来模拟达到生物意义上神经元传递的要求(上面列出的两点).<br><img src="/images/jq.png" alt="jq"><br>图中的<code>Z</code>就表示一个神经元所获得的输入信号的加权和, 有了输入。如何判断是否产生向下继续传递。这里输入<code>Z</code>在经过一个<code>非线性函数</code>后，得到神经元的活性值(activation). 到这里这篇文章的主角才登场，这里的<code>非线性函数</code>就是我们要介绍的<code>激活函数</code>. 所以我们可以总结为，人造神经元在接受了一定的输入后要不要激发，取决于激活函数的处理.</p>
+<h3 id="激活函数工作模式"><a href="#激活函数工作模式" class="headerlink" title="激活函数工作模式"></a>激活函数工作模式</h3><p>通过我上面的描述，我们可以很清楚知道，当我们的输入Z大于某一个值，我们就激发。小于某一个值就什么都不做。有了这个概念，我们如何用具体的形式来表现呢。<br><img src="/images/sf.png" alt="SF"><br>在这幅图中可以看到在输入的值大于0输出为1我们的人造神经元就激发, 当其值小于0时输出的为0相对的就是不激发.<br>为了增强网络的表达能力和学习能力，正常都是用上面提到的<code>非线性函数</code>作为激活函数</p>
+<h3 id="不同的激活函数不同的效果"><a href="#不同的激活函数不同的效果" class="headerlink" title="不同的激活函数不同的效果"></a>不同的激活函数不同的效果</h3><p>有时间补上…</p>
+
       
     </div>
     
@@ -358,7 +369,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.strucoder.com/2018/06/01/understanding-activation-functions-in-neural-networks/" title="understanding-activation-functions-in-neural-networks">http://www.strucoder.com/2018/06/01/understanding-activation-functions-in-neural-networks/</a>
+    <a href="http://www.strucoder.com/2018/06/01/understanding-activation-functions-in-neural-networks/" title="更好的理解深度学习中神经网络中的激活函数">http://www.strucoder.com/2018/06/01/understanding-activation-functions-in-neural-networks/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -370,6 +381,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DL/" rel="tag"># DL</a>
+          
+        </div>
       
 
       
@@ -401,6 +418,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/03/face-distance/" rel="prev" title="不同人脸的相似度">
+                不同人脸的相似度 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -465,7 +486,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -478,7 +499,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   
-                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
