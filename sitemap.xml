@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.strucoder.com/2018/06/01/understanding-activation-functions-in-neural-networks/</loc>
+    
+    <lastmod>2018-06-01T07:58:48.389Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.strucoder.com/2018/01/15/pmgo-intr/</loc>
     
     <lastmod>2018-01-19T06:28:32.393Z</lastmod>
@@ -11,14 +18,14 @@
   <url>
     <loc>http://www.strucoder.com/private-re/index.html</loc>
     
-    <lastmod>2018-01-15T02:56:36.564Z</lastmod>
+    <lastmod>2018-01-15T02:56:36.565Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://www.strucoder.com/about/index.html</loc>
     
-    <lastmod>2018-01-15T02:53:33.417Z</lastmod>
+    <lastmod>2018-01-15T02:53:33.418Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>http://www.strucoder.com/404.html</loc>
     
     <lastmod>2018-01-15T02:24:21.327Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.strucoder.com/2018/01/12/hello-world/</loc>
-    
-    <lastmod>2018-01-15T02:19:37.963Z</lastmod>
     
   </url>
   
