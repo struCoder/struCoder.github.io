@@ -269,6 +269,135 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.strucoder.com/2018/09/03/monte-carlo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="david zhang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ky">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/03/monte-carlo/" itemprop="url">为什么我们小时候套圈圈总是套不住</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T20:23:18+08:00">2018-09-03</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="阅读铺垫"><a href="#阅读铺垫" class="headerlink" title="阅读铺垫"></a>阅读铺垫</h3><p>想必很多人小时候都玩过套圈圈游戏，就是类似下图这样，很多奖品摆在距离你1米左右的正前方，然后用比物品稍微大一些的圈来套，套住就是你的，套不住再接再厉.<br><img src="/images/tqq.jpeg" alt="qq"></p>
+<h3 id="为什么游戏的组织者-小商贩-敢于这样玩"><a href="#为什么游戏的组织者-小商贩-敢于这样玩" class="headerlink" title="为什么游戏的组织者(小商贩)敢于这样玩"></a>为什么游戏的组织者(小商贩)敢于这样玩</h3><p>很多人不约而同都会说，因为很困难。这里的很困难其实就是物品被套中的概率极小，所以小贩基本上就是稳赚不赔的。那么我们今天就来一探究竟，看看到底概率有多低</p>
+<h3 id="蒙特卡罗"><a href="#蒙特卡罗" class="headerlink" title="蒙特卡罗"></a>蒙特卡罗</h3><p> <a href="https://zh.wikipedia.org/wiki/%E8%92%99%E5%9C%B0%E5%8D%A1%E7%BE%85%E6%96%B9%E6%B3%95" target="_blank" rel="noopener">蒙特卡洛方法（Monte</a> Carlo method，也有翻译成“蒙特卡罗方法”）是以概率和统计的理论、方法为基础的一种数值计算方法，将所求解的问题同一定的概率模型相联系，用计算机实现统计模拟或抽样，以获得问题的近似解，故又称随机抽样法或统计试验法。<br> 蒙特卡洛没有什么高深的理论，它只是一种方法或者说策略。但是就是这种思想或者策略，研究深了学问还是很大，以及衍生很多其他的理论，这里我们暂且不做讨论.</p>
+<h3 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a><a href="https://baike.baidu.com/item/%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83/829892?fr=aladdin" target="_blank" rel="noopener">正态分布</a></h3><p>在我们的生活中，很多事物在总计的情况下都符合正态分布的，比如男女身高、寿命、血压、考试成绩、测量误差等等，都属于正态分布。<br>如果一个事物受到多种因素的影响，不管每个因素本身是什么分布，它们加总后，结果的平均值就是正态分布。举例来说，人的身高既有先天因素（基因），也有后天因素（营养）。每一种因素对身高的影响都是一个统计量，不管这些统计量本身是什么分布，它们和的平均值符合正态分布。（注意：男性身高和女性身高都是正态分布，但男女混合人群的身高不是正态分布。）但是有一点需要注意的是：正态分布只适合各种因素累加的情况，如果这些因素不是彼此独立的，会互相加强影响，那么就不是正态分布了。</p>
+<h3 id="通过代码来模拟套圈圈游戏"><a href="#通过代码来模拟套圈圈游戏" class="headerlink" title="通过代码来模拟套圈圈游戏"></a>通过代码来模拟套圈圈游戏</h3><p> 首先我们要做的就是在画一个简单的坐标系，并且规定类似现实当中的物品在坐标系中的呈现形式，在这里比如我们的物品半径是5厘米，我们套圈的半径是8厘米。在我们的坐标系中画出纵横为6 * 6的物品摆放<br> <img src="/images/dke.png" alt="dke"></p>
+<p> 然后模拟随机投掷套圈，那么如何产生这小套圈的坐标，在这里我们不容用机器生成随机数，因为那样的话虽然是随机但是在统计学上不符合正态分布，所以我们在随机的基础上加上一步：构造符合标准正态分布的随机数.<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.random.randn(..arg)</span><br></pre></td></tr></table></figure></p>
+<p> 接下来我们通过如下代码看看最后的结果怎么样:<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">x_len = <span class="number">60</span></span><br><span class="line">y_len = <span class="number">60</span></span><br><span class="line">plt.xlim(-x_len, x_len)</span><br><span class="line">plt.ylim(-y_len, y_len)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 物品半径</span></span><br><span class="line">goods_r = <span class="number">5</span></span><br><span class="line"><span class="comment"># 套圈半径</span></span><br><span class="line">ring_r = <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># x以及y轴上分别摆放物品个数</span></span><br><span class="line">x_num = <span class="number">6</span></span><br><span class="line">y_num = <span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 起始的中心店坐标 和 起始偏移量</span></span><br><span class="line">x_bias = <span class="number">5</span></span><br><span class="line">y_bias = <span class="number">5</span></span><br><span class="line">start_point = (-x_len + goods_r + x_bias, y_len - goods_r - y_bias)</span><br><span class="line"><span class="comment"># 物品间的间隔</span></span><br><span class="line">spacing = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 物品间间距</span></span><br><span class="line">distance = (goods_r * <span class="number">2</span> + spacing)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 投掷次数</span></span><br><span class="line">N = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 平均数，方差</span></span><br><span class="line">u, sigma = <span class="number">0</span>, <span class="number">15</span></span><br><span class="line"><span class="comment"># 画图</span></span><br><span class="line">goods_points = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(y_num):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(x_num):</span><br><span class="line">        new_x = start_point[<span class="number">0</span>] + distance * j</span><br><span class="line">        new_y = start_point[<span class="number">1</span>] - distance * i</span><br><span class="line">        goods_points.append(tuple([new_x, new_y]))</span><br><span class="line">        circle_target = mpatches.Circle([new_x, new_y], radius=<span class="number">5</span>, edgecolor=<span class="string">'r'</span>, fill=<span class="keyword">False</span>)</span><br><span class="line">        plt.axes().add_patch(circle_target)</span><br><span class="line"></span><br><span class="line">points = sigma * np.random.randn(N, <span class="number">2</span>) + u</span><br><span class="line"></span><br><span class="line">random_point_x = [x[<span class="number">0</span>] <span class="keyword">for</span> x <span class="keyword">in</span> points]</span><br><span class="line">random_point_y = [x[<span class="number">1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> points]</span><br><span class="line">random_points = zip(random_point_x, random_point_y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 被套圈套住的物品个数</span></span><br><span class="line">ringed = []</span><br><span class="line"><span class="keyword">for</span> goods_item <span class="keyword">in</span> goods_points:</span><br><span class="line">    <span class="keyword">for</span> random_point_item <span class="keyword">in</span> random_points:</span><br><span class="line">        distance = dist.euclidean(goods_item, random_point_item)</span><br><span class="line">        <span class="comment"># 3 = ring_r - goods_r</span></span><br><span class="line">        <span class="keyword">if</span> distance &lt;= <span class="number">3</span>:</span><br><span class="line">            ringed.append(random_point_item)</span><br><span class="line"></span><br><span class="line">plt.scatter(random_point_x, random_point_y, c=np.random.rand(N), alpha=<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 画出被圈中的套圈点</span></span><br><span class="line">ringed_points = zip(*ringed)</span><br><span class="line">plt.scatter([ringed_points[<span class="number">0</span>]], [ringed_points[<span class="number">1</span>]], c=<span class="string">'red'</span>, alpha=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'套住物品的概率:&#123;0:.2f&#125;%'</span>.format((len(ringed)/float(N)) * <span class="number">100</span>))</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/result_dke.png" alt="result_dke"></p>
+<p>从结果中我们可以看出，概率还是很低很低的，我试了好多次，最后结果大概维持在9%左右，所以小贩很赚钱。当然这里并没有模拟只专注套一个或几个特选的物品的概率，如果这样加上自己专注力的加持下我个人觉得套中的概率还是有所效提升的。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.ruanyifeng.com/blog/2017/08/normal-distribution.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2017/08/normal-distribution.html</a><br><a href="https://blog.csdn.net/saltriver/article/details/52194918" target="_blank" rel="noopener">https://blog.csdn.net/saltriver/article/details/52194918</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.strucoder.com/2018/08/21/eye-aspect-ratio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -790,7 +919,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -803,7 +932,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">标签</span>
                   
                 </div>
