@@ -122,7 +122,7 @@
 
 
 
-  <title>眨眼检测 | ky</title>
+  <title>9.5代雅阁混动体验 | ky</title>
   
 
 
@@ -271,7 +271,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.strucoder.com/2018/08/21/eye-aspect-ratio/">
+    <link itemprop="mainEntityOfPage" href="http://www.strucoder.com/2018/09/12/9-5-accord-hybrid-experience/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="david zhang">
@@ -288,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">眨眼检测</h1>
+          <h1 class="post-title" itemprop="name headline">9.5代雅阁混动体验</h1>
         
 
         <div class="post-meta">
@@ -300,7 +300,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T11:25:17+08:00">2018-08-21</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-12T17:11:39+08:00">2018-09-12</time>
             
 
             
@@ -341,15 +341,21 @@
       
 
       
-        <h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><p>随着支付宝的普及很多人应该用过刷脸功能，在刷脸时app会提示请眨眼，那么为什么要眨眼呢，就是确定镜头前的你不是照片而是活生生的人，说白了也是防止舞弊。通过本篇短文介绍让你了解如何进行眨眼检测判断是否是真人。<br><img src="/images/zzfb.png" alt="zfb"><br><a id="more"></a></p>
-<p>借鉴这篇论文: <a href="http://vision.fe.uni-lj.si/cvww2016/proceedings/papers/05.pdf" target="_blank" rel="noopener">使用面部特征点进行实时眨眼检测(Real-Time Eye Blink Detection using Facial Landmarks)</a>. 我们可以知道眨眼检测在很多领域都有十分重要的地位，比如预防驾驶员开车时犯困、避免人长时间在显示器面前工作得干眼症、监控操作员警惕性、用于反欺骗保护的人脸识别等等。在这里我们使用眼睛的纵横比(eye aspect ratio)来判断是睁开还是闭合.<br><img src="/images/ear.png" alt="ear"></p>
-<p>从上图我们可以看出，对于一个眼睛可以用6个点来表示，当眼睛睁开时，纵横比是大于0，当眼睛闭合或者快要闭合时，其比值是接近于0的。睁开和闭眼也应当有一个阈值，从上面的论文中我们知道这个阈值可以设定为0.2，当然如果你想宽松一点也可以设置为0.3。<br><img src="/images/eye_th.png" alt="eye_th"></p>
-<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>在这里我们得用到python中相关的科学计算包比如<code>numpy</code>和<code>scipy</code>以及人脸检测的<code>dlib</code>. 这里主要用的scipy中的欧氏距离计算函数以及dlib中人脸68个特征点(landmarks)，当然我们用到的也就是左眼和右眼的12个特征点, 我们通过计算单个眼睛中上下点的距离比上左右两个特征点的比值也就是纵横比(eye aspect ratio)<br><img src="/images/face_68.jpg" alt="face68"><br><img src="/images/ear_fi.png" alt="ear_figure"></p>
-<p>有了科学计算的包我们就可以很容易写出具体的函数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eye_aspect_ratio</span><span class="params">(eye)</span>:</span></span><br><span class="line">    A = dist.euclidean(eye[<span class="number">1</span>], eye[<span class="number">5</span>])</span><br><span class="line">    B = dist.euclidean(eye[<span class="number">2</span>], eye[<span class="number">4</span>])</span><br><span class="line">    C = dist.euclidean(eye[<span class="number">0</span>], eye[<span class="number">3</span>])</span><br><span class="line">    ear = (A + B) / (<span class="number">2.0</span> * C)</span><br><span class="line">    <span class="keyword">return</span> ear</span><br></pre></td></tr></table></figure></p>
-<p>使用dlib检测人脸的68个特征点我们也可以很容易的使用:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">detector = dlib.get_frontal_face_detector()</span><br><span class="line"><span class="comment"># 这里的.dat为dlib官方提供的已经训练好的人脸68个特征点检测模型</span></span><br><span class="line">predictor = dlib.shape_predictor(<span class="string">'path/to/shape_predictor_68_face_landmarks.dat'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>剩余的代码:<br><img src="/images/eye_code.png" alt="code"></p>
-<h4 id="以下分别是睁眼，眯眼，闭眼的结果"><a href="#以下分别是睁眼，眯眼，闭眼的结果" class="headerlink" title="以下分别是睁眼，眯眼，闭眼的结果"></a>以下分别是睁眼，眯眼，闭眼的结果</h4><p><img src="/images/ear_demo3.png" alt="open"><br><img src="/images/ear_demo1.png" alt="open"><br><img src="/images/ear_demo2.png" alt="open"></p>
-<h3 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h3><p>基于此我们可以再添加一些代码将这个做成实时检测的。我们也可以做成开车如果犯困疲劳检测出快要闭眼直接响起报警声等等.</p>
+        <p>上周末(2018-09-09)去雅阁的4s店做了首保，首保时的公里数刚好是3400公里(开到店是3407?). 这篇博客主要是分享一下驾车体验和一些关于车的个人观点.</p>
+<p><img src="/images/shcar.png" alt="shcar"><br><a id="more"></a></p>
+<h3 id="车的介绍"><a href="#车的介绍" class="headerlink" title="车的介绍"></a>车的介绍</h3><p>首先这款车是2016款的雅阁混动也就是所谓的9.5代, 发动机和电机都是从日本进口的，拿到车我看过这个车所谓的证书吧，网上也有。电池看网上说是国外的电池原件，国内生产的。我也没必要在追究下去，毕竟它这个电机和电池都是十年二十万质保。另外就是广本的车的所有的配件都是广汽投资的或者分公司生产的，所以耐用性十分的高，这也是为什么广本车什么价格什么配置，多一件都不给你，不仅仅是广本的，日系车差不多都是这样，就是一个理念，把钱用在改用的地方，提高整车的可靠性和耐用性，所以我这款车落地大概26.2的价格连倒车雷达和座椅通风都没有。反观国内很多车，什么配置都上，15万的车的配置都赶上30万车的配置，但是他们车的发动机变速箱底盘以及各种配件的耐用性就十分的不怎么可靠不耐用。车的三大件剩下的钱都去提高配置了。那些配置才多少钱，三大件随便省省都能上万了。一辆车成本降低，如果走量，成本节约就相当可观。</p>
+<h3 id="混动车型是否是我初衷"><a href="#混动车型是否是我初衷" class="headerlink" title="混动车型是否是我初衷"></a>混动车型是否是我初衷</h3><p>这个可以明确的说，我当初不怎么看好混动或者更准确的说我不了解混动。当时我的意向是马自达的阿特兹次顶配。那段时间去看了丰田的八代凯美瑞(刚上市),马自达阿特兹以及别个君越和大众的迈腾。最后一个看的就是雅阁混动(当时都下午三点左右了)。后来自己花了一段时间了解了雅阁的混动技术特点和凯美瑞的混动技术特点，以我个人的理解还是雅阁的混动技术简单高效。凯美瑞的那套混动系统有些复杂。在机械方面越是简单的系统可靠性越高，当然我不是说丰田的混动系统不可靠，毕竟丰田混动技术用了这么多年还是很可靠的。关于雅阁混动的i-mmd系统我这里就不再多说，网上多的是。随着对这套系统的逐步了解和看了相关不吹不黑第三方独立车评人的评测更加坚定了我购买该车的决定，当时决定买车不知道是内心的欲望没控制住还是什么其它原因，因为做这个决定不是为了什么面子以及冲动吧，因为我思考了一个多星期才有决定，况且我这个人不怎么认同有钱才有面子这一个观点，别人对你的尊重是因为你尊重别人，何况三十年河东三十年河西，大富大贵只是弹指一瞬。扯远了。</p>
+<h3 id="买混动是不是为了省油"><a href="#买混动是不是为了省油" class="headerlink" title="买混动是不是为了省油"></a>买混动是不是为了省油</h3><p>说实话，当初是有这一点的考虑，但是混动版本比汽油版贵了四五万，而这贵的钱可以加油加好几年了。我所考虑的是要跟上时代的变化，你可能会说，那怎么不买纯电动，那才是趋势。我觉得纯电看起来很简单，符合时代发展，但是细细的想，我们暂不考虑贬值，就拿这个充电来说，在国内就是一个很大很大的难题，况且国内纯电汽车不能说是良莠不齐，只能说是刚刚起步，现在能代表纯电的只有特斯拉。很多人一直有一个思维误区，认为纯电汽车关键点在电池，电池关系到续航，我想说，纯电汽车关键点在电池管理的那一套系统，当然电池技术也是一个重要点。前些日子看到新闻说，特斯拉有一个买家开了六七十万公里，电池损耗才20%。这就很了不起了，反观国内，都是为了牌照补贴之类的，出发点不一样往往决定了技术成就的高度。但是特斯拉太贵，目前承受不起。</p>
+<h3 id="驾车体验"><a href="#驾车体验" class="headerlink" title="驾车体验"></a>驾车体验</h3><ol>
+<li>因为雅阁混动是以电机为主发动机为辅，所以在起步那个阶段还是很有力的，毕竟是电机，扭矩输出都是全部的，当速度到100左右深踩油门，还是有源源不断的动力输出。</li>
+<li>在噪音这一块，毕竟是本田的一贯风格，噪音抑制的不怎么好，如果马路的沥青颗粒较小，噪音几乎没有。速度在100左右巡航，噪音还是有些大的，不过我也能接受。这一点见仁见智吧，还有就是车顶隔音，外面下大雨，车内噼里啪啦的声音(声音很大)，这一点很反感。</li>
+<li>在驾控体验这一块，我觉得多花四五万还是很值得的，方向盘很精准，底盘韧性十足(有些硬，毕竟标号是sport hybrid)，没有雅阁车一贯的软松散的感觉, 滤震很干脆。</li>
+<li>油耗这块，我觉得很不错，四五个油，一箱油能跑1200公里左右，对油不挑剔，我一直加92的，毕竟油这块我有些了解，自吸的发动机一般92足够，当然有些自吸的发动机就对油品有要求，怎么说呢，那些很多都是加了机械增压(高级车才有)。另外就是不同的油号的油并不是代表能量多多高而仅仅是辛烷值的表示，爆震成都，这也就是很多人感觉喝92油车很吵，95+的很安静以及发动机声音不一样的原因，当然，那些涡轮增压的必须加95的我觉得原因也是因为爆震在涡轮接入提升马力时如果喝低于95的油，发动机嘶吼声以及震动过大对发动机不好的原因引起的吧。</li>
+<li>保养这块，我觉得不必说多少，就雅阁混动而言还是很低很低的，大概五六百左右。当然4s送了我六桶机油，所以我如果去4s店保养，几乎三四百吧，去其它店应该更低，毕竟4s店利润就在维修保养.</li>
+</ol>
+<h3 id="以后还是否购买混动"><a href="#以后还是否购买混动" class="headerlink" title="以后还是否购买混动"></a>以后还是否购买混动</h3><p>按照当前的世界汽车发展趋势，那些大自吸的车会越来越少，毕竟整个世界都在提倡环保。车不过就是一个以代步为主驾控体验为辅的交通工具，当然如果有些人玩车那就是倒过来说。这个不一样。不同的时代不同的世纪应当有不同的能源提供，石油能源毕竟用了几百年了，不能说只有石油作为能源才能让你感受到驾控体验感受到发动机的声浪让人愉悦，这只是这几代人对车的一个传统认识，如果只限于这个，那么离开石油，岂不是都不要车了？本田已经开始准备在日本小规模生产以氢气为主要能源的汽车，我觉得那才是未来能源(我的认知所能看到的)。那才是真正的0排放。未来人类没了石油对车的认知肯定不一样，就类似科幻电影那样吧。</p>
+<h3 id="混动类别"><a href="#混动类别" class="headerlink" title="混动类别"></a>混动类别</h3><p>按照当前的情况，混动主要分两种，插电式混动和增程混动，插电混动按照我朝的规则，发动机和电池加电机两套动力系统是分开的，要么发动机驱动车辆，要么纯电驱动，而电池的电只能依靠外来能源充(接入电网)。而增程式混动就是我这样雅阁混动的i-mmd以及丰田那个混动系统一样，电池的电力来自于发动机，而本田和丰田的混动技术已经遥遥领先于世界，而我朝的绿牌只认可插电式混动, 而插电式混动系统协调低效充电麻烦，没多少技术点可言，两套动力系统协调过于简单除暴. 毕竟本田和丰田的混动技术专利基本垄断了混动这块的市场，国内混动这块也是举步维艰。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>本篇博客任何个人以及商业组织在未取得我本人同意的情况下不得以任何形式的转载。文末的版权协议在此篇无效，视本条为准.</p>
 
       
     </div>
@@ -370,7 +376,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.strucoder.com/2018/08/21/eye-aspect-ratio/" title="眨眼检测">http://www.strucoder.com/2018/08/21/eye-aspect-ratio/</a>
+    <a href="http://www.strucoder.com/2018/09/12/9-5-accord-hybrid-experience/" title="9.5代雅阁混动体验">http://www.strucoder.com/2018/09/12/9-5-accord-hybrid-experience/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -385,9 +391,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/DL/" rel="tag"># DL</a>
+            <a href="/tags/personal/" rel="tag"># personal</a>
           
-            <a href="/tags/CV/" rel="tag"># CV</a>
+            <a href="/tags/car/" rel="tag"># car</a>
           
         </div>
       
@@ -412,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/03/face-distance/" rel="next" title="不同人脸的相似度">
-                <i class="fa fa-chevron-left"></i> 不同人脸的相似度
+              <a href="/2018/09/03/monte-carlo/" rel="next" title="为什么我们小时候套圈圈总是套不住">
+                <i class="fa fa-chevron-left"></i> 为什么我们小时候套圈圈总是套不住
               </a>
             
           </div>
@@ -421,10 +427,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/03/monte-carlo/" rel="prev" title="为什么我们小时候套圈圈总是套不住">
-                为什么我们小时候套圈圈总是套不住 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
